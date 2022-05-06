@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  ApiGatewayFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: lambda-entry-point.handler
+      Runtime: nodejs14.x
+      Events:
+        HttpRootEntryPoint:
+          Type: Api
+          Properties:
+            Path: /
+            Method: ANY
+        HttpWildCardEntryPoint:
+          Type: Api
+          Properties:
+            Path: /{path+}
+            Method: ANY
