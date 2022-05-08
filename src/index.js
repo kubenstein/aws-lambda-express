@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   const params = unifiedParams(req);
-  res.json(params);
+  res.json({ message: "hello from AWS lambda!", getParams: params });
 });
 
 module.exports = app;
