@@ -1,0 +1,19 @@
+name: Deploy to AWS Production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy-to-aws-production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: deploy to AWS (https://mkomq9vvn8.execute-api.ap-northeast-1.amazonaws.com/Prod/)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+           NO_TTY=1 ./scripts/deploy.sh
