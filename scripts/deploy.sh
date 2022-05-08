@@ -17,7 +17,8 @@ FILE
 echo "$DOCKERFILE" | docker build -t aws-sam-deployer -
 
 
-docker run -it --rm \
+docker run -i --rm \
+  $([ -z "$NO_TTY" ] && echo '-t') \
   -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
   -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
   -v $(pwd):/app \
