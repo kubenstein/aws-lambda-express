@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "node ./dev-env-entry-point.js",
-    "dev:sam": "./scripts/run-dev-env-docker.sh"
+    "dev:sam": "./scripts/run-dev-env.sh"
   },
   "dependencies": {
     "@vendia/serverless-express": "^4.8.0",

@@ -14,10 +14,18 @@ yarn run dev
 
 Local sam dev env (execute requests in SAM-based dev lambda context):
 ```bash
-./scripts/run-dev-env-docker.sh
+./scripts/run-dev-env.sh
 
 # navigate to http://localhost:3000/
 ```
 
 ## Deployments
 Deployments are done via GH Actions, GH deploys to AWS. `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` secret are needed.
+
+## Production logs
+Production logs can be obtained by using command below:
+```bash
+AWS_ACCESS_KEY_ID=*** AWS_SECRET_ACCESS_KEY=*** ./scripts/production-logs.sh
+```
+
+`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` will be displayed during deployment, those are keys for a secial user with logs readonly permissions.
