@@ -14,7 +14,7 @@ yarn run dev
 
 Local sam dev env (execute requests in SAM-based dev lambda context):
 ```bash
-./scripts/run-dev-env-docker.sh
+./scripts/run-dev-env.sh
 
 # navigate to http://localhost:3000/
 ```
