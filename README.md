@@ -20,7 +20,7 @@ Local sam dev env (execute requests in SAM-based dev lambda context):
 ```
 
 ## Deployments
-Deployments are done via GH Actions, GH deploys to AWS. `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` secret are needed.
+Deployments are manually triggered via GH Actions.
 
 ## Production logs
 Production logs can be obtained by using command below:
