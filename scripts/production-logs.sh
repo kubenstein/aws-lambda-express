@@ -4,9 +4,10 @@
 set -e
 
 DOCKERFILE=$(cat <<FILE
-  FROM node:14-alpine
+  FROM node:18-alpine
   RUN apk update
   RUN apk add musl-dev gcc python3 python3-dev
+  RUN rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED
   RUN python3 -m ensurepip --upgrade \
    && pip3 install --upgrade pip \
    && pip3 install --upgrade awscli aws-sam-cli
