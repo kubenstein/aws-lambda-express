@@ -2,57 +2,15 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
-  LogReaderUser:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: !Sub '${AWS::StackName}-log-reader'
-      Policies:
-        - PolicyName: CloudWatchReadOnlyAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-            - Effect: Allow
-              Action:
-                - "autoscaling:Describe*"
-                - "cloudwatch:Describe*"
-                - "cloudwatch:Get*"
-                - "cloudwatch:List*"
-                - "logs:Get*"
-                - "logs:List*"
-                - "logs:StartQuery"
-                - "logs:StopQuery"
-                - "logs:Describe*"
-                - "logs:TestMetricFilter"
-                - "logs:FilterLogEvents"
-                - "sns:Get*"
-                - "sns:List*"
-              Resource: "*"
-        - PolicyName: AWSCloudFormationReadOnlyAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-            - Effect: Allow
-              Action:
-                - "cloudformation:Describe*"
-                - "cloudformation:EstimateTemplateCost"
-                - "cloudformation:Get*"
-                - "cloudformation:List*"
-                - "cloudformation:ValidateTemplate"
-                - "cloudformation:Detect*"
-              Resource: "*"
-
-  LogReaderUserAccessKeys:
-    Type: AWS::IAM::AccessKey
-    Properties:
-      Status: Active
-      UserName: !Ref LogReaderUser
-
   ApiGatewayFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
       Handler: lambda-entry-point.handler
       Runtime: nodejs18.x
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT: http://host.docker.internal:8000
       Events:
         HttpRootEntryPoint:
           Type: Api
@@ -64,10 +22,3 @@ Resources:
           Properties:
             Path: /{path+}
             Method: ANY
-
-Outputs:
-  LogReaderUserId:
-    Value: !Ref "LogReaderUserAccessKeys"
-
-  LogReaderUserSecret:
-    Value: !GetAtt LogReaderUserAccessKeys.SecretAccessKey
