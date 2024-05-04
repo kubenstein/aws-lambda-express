@@ -1,0 +1,15 @@
+docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
+
+
+
+aws dynamodb create-table \
+  --endpoint http://host.docker.internal:8000 \
+  --table-name YourTableName \
+  --attribute-definitions \
+      AttributeName=YourPartitionKey,AttributeType=S \
+      AttributeName=YourSortKey,AttributeType=N \
+  --key-schema \
+      AttributeName=YourPartitionKey,KeyType=HASH \
+      AttributeName=YourSortKey,KeyType=RANGE \
+  --provisioned-throughput \
+    ReadCapacityUnits=5,WriteCapacityUnits=5
