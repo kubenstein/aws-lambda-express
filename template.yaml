@@ -16,9 +16,31 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
 
+  ApiGatewayFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: DynamoDBPermissions
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:GetItem
+                Resource: !GetAtt MyDynamoDBTable.Arn
+
   ApiGatewayFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Role: !GetAtt ApiGatewayFunctionRole.Arn
       CodeUri: ./
       Handler: lambda-entry-point.handler
       Runtime: nodejs18.x

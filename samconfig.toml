@@ -3,7 +3,7 @@ version = 0.1
 [production.deploy]
 [production.deploy.parameters]
 stack_name = "aws-lambda-express"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-wmmz2s0no9h4"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-wxxz2s0no9h4"
 s3_prefix = "aws-lambda-express"
 region = "ap-northeast-1"
 capabilities = "CAPABILITY_NAMED_IAM"

@@ -15,7 +15,7 @@ exports.handler = async _event => {
     const putParams = {
       TableName: "MyTable",
       Item: {
-        Id: { S: "unique-id-1" },
+        ID: { S: "unique-id-1" },
         email: { S: "email@email.com" },
       },
     };
@@ -26,7 +26,7 @@ exports.handler = async _event => {
     const getParams = {
       TableName: "MyTable",
       Key: {
-        Id: { S: "unique-id-1" },
+        ID: { S: "unique-id-1" },
       },
     };
 

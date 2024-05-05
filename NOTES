@@ -6,8 +6,8 @@ aws dynamodb create-table \
   --endpoint http://host.docker.internal:8000 \
   --table-name MyTable \
   --attribute-definitions \
-      AttributeName=Id,AttributeType=S \
+      AttributeName=ID,AttributeType=S \
   --key-schema \
-      AttributeName=Id,KeyType=HASH \
+      AttributeName=ID,KeyType=HASH \
   --provisioned-throughput \
     ReadCapacityUnits=1,WriteCapacityUnits=1
