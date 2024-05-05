@@ -1,6 +1,7 @@
 const {
   DynamoDBClient,
   PutItemCommand,
+  GetItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 
 const dynamodbClient = new DynamoDBClient({
@@ -9,80 +10,37 @@ const dynamodbClient = new DynamoDBClient({
 
 exports.handler = async event => {
   try {
-
-    const input = {
-      "Item": {
-        "AlbumTitle": {
-          "S": "Somewhat Famous"
-        },
-        "Artist": {
-          "S": "No One You Know"
-        },
-        "SongTitle": {
-          "S": "Call Me Today"
-        }
-      },
-      "ReturnConsumedCapacity": "TOTAL",
-      "TableName": "YourTableName"
+    const putParams = {
+      TableName: 'YourTableName',
+      Item: {
+        Id: { S: 'unique-id-1' },
+        email: { S: 'email@email.com' }
+      }
     };
 
-    const putItemCommand = new PutItemCommand(input);
+    const putItemCommand = new PutItemCommand(putParams);
     await dynamodbClient.send(putItemCommand);
+
+    const getParams = {
+      TableName: 'YourTableName',
+      Key: {
+        Id: { S: 'unique-id-1' }
+      }
+    };
+
+    const getItemCommand = new GetItemCommand(getParams);
+    const { Item } = await dynamodbClient.send(getItemCommand);
+
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Data added to DynamoDB table" }),
+      body: JSON.stringify(Item),
     };
   } catch (error) {
     console.error("Error:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "An error occurred" }),
+      body: JSON.stringify({ error }),
     };
   }
 };
-
-// exports.handler = async (event) => {
-//   // Your Lambda function logic goes here
-//   const response = {
-//       statusCode: 200,
-//       headers: {
-//           "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify({
-//           message: "Hello from Lambda!"
-//       })
-//   };
-//   return response;
-// };
-
-// const params = {
-//   TableName: process.env.TABLE_NAME,
-//   Item: {
-//     id: 1,
-//     data: "hello",
-//   },
-// };
-
-// try {
-//   // Perform a put operation to insert data into the DynamoDB table
-//   await dynamoDb.put(params).promise();
-
-//   // Return a success response
-//   return {
-//     statusCode: 200,
-//     body: JSON.stringify({
-//       message: "Data inserted successfully.",
-//     }),
-//   };
-// } catch (error) {
-//   console.error(error);
-
-//   // Return an error response
-//   return {
-//     statusCode: 500,
-//     body: JSON.stringify({
-//       message: "Error occurred while inserting data into DynamoDB table.",
-//     }),
-//   };
-// }
-// };
