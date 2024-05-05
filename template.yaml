@@ -2,6 +2,20 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
+  MyDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: MyTable
+      AttributeDefinitions:
+        - AttributeName: ID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ID
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
   ApiGatewayFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -10,7 +24,7 @@ Resources:
       Runtime: nodejs18.x
       Environment:
         Variables:
-          DYNAMODB_ENDPOINT: http://host.docker.internal:8000
+          LAMBDA_ENV: "prod"
       Events:
         HttpRootEntryPoint:
           Type: Api

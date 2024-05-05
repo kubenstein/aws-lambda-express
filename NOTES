@@ -4,7 +4,7 @@ docker run -p 8000:8000 -v $PWD/db/:/usr/app/data amazon/dynamodb-local -jar Dyn
 
 aws dynamodb create-table \
   --endpoint http://host.docker.internal:8000 \
-  --table-name YourTableName \
+  --table-name MyTable \
   --attribute-definitions \
       AttributeName=Id,AttributeType=S \
   --key-schema \

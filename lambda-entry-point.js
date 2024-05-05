@@ -4,33 +4,34 @@ const {
   GetItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 
-const dynamodbClient = new DynamoDBClient({
-  endpoint: process.env.DYNAMODB_ENDPOINT,
-});
+let config = {};
+if (process.env.LAMBDA_ENV === "dev") {
+  config = { endpoint: "http://host.docker.internal:8000" };
+}
+const dynamodbClient = new DynamoDBClient(config);
 
-exports.handler = async event => {
+exports.handler = async _event => {
   try {
     const putParams = {
-      TableName: 'YourTableName',
+      TableName: "MyTable",
       Item: {
-        Id: { S: 'unique-id-1' },
-        email: { S: 'email@email.com' }
-      }
+        Id: { S: "unique-id-1" },
+        email: { S: "email@email.com" },
+      },
     };
 
     const putItemCommand = new PutItemCommand(putParams);
     await dynamodbClient.send(putItemCommand);
 
     const getParams = {
-      TableName: 'YourTableName',
+      TableName: "MyTable",
       Key: {
-        Id: { S: 'unique-id-1' }
-      }
+        Id: { S: "unique-id-1" },
+      },
     };
 
     const getItemCommand = new GetItemCommand(getParams);
     const { Item } = await dynamodbClient.send(getItemCommand);
-
 
     return {
       statusCode: 200,
